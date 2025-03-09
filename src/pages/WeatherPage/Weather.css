@@ -1,0 +1,247 @@
+/* ------------------------------ Background ------------------------------ */
+
+/* ------------------------------ Weather Container ------------------------------ */
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5em;
+  padding: 0 1em;
+  width: 99%;
+  height: 90%;
+
+  background-color: #242424;
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 10px 10px;
+  border: none;
+  border-radius: 0.9em;
+  position: relative;
+}
+
+.weather-container::after {
+  content: "";
+  position: absolute;
+  height: 100.4%;
+  width: 100.3%;
+  border-radius: 1em;
+  background-image: linear-gradient(to bottom right, #008cff, #e100ff);
+  z-index: -1;
+  animation: moveGradient 5s linear infinite;
+}
+.weather {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  animation: weather-fadeIn 3s ease-in-out;
+  min-width: 100%;
+  overflow-x: scroll;
+  overflow-y: scroll;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+  /* border: 1px solid red; */
+}
+
+.weather-title {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 0.5em;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.weather-details__title {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 1em;
+  margin-right: auto;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.weather-location {
+  position: absolute;
+  top: 0;
+  right: 1em;
+  font-size: 2rem;
+  font-weight: 300;
+  margin-top: 1em;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.loading-container {
+  gap: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5em;
+  padding: 2em;
+  width: 99%;
+  height: 90%;
+  background-color: rgba(36, 36, 36, 0.4);
+  border: none;
+  border-radius: 0.9em;
+  position: relative;
+}
+
+.loading-container::after {
+  content: "";
+  position: absolute;
+  height: 100.5%;
+  width: 100.5%;
+  border-radius: 1em;
+  background-image: linear-gradient(to bottom right, #008cff, #e100ff);
+  z-index: -1;
+  animation: moveGradient 5s linear infinite;
+  opacity: 0;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+/* ------------------------------ Current Day Weather Details ------------------------------ */
+
+.weather-details-current-day-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 1.8em;
+  height: 100%;
+  min-width: 20em;
+  min-height: 20em;
+  margin-right: 1em;
+  /* border: 1px solid green; */
+}
+
+.weather-details-current-day-date {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 auto 0;
+}
+
+.weather-details-current-day-min {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0 auto 0;
+}
+
+.weather-details-current-day-max {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0 auto 0;
+}
+
+.weather-details-current-day-temperature {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-top: auto;
+  margin: 0 auto 0;
+}
+
+.weather-details-current-day-icon {
+  width: 5em;
+  height: 5em;
+  margin: 0 auto 35%;
+}
+
+.weather-details-current-day-temperature-value {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: auto;
+}
+
+.weather-details-current-day-precipitation {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 auto 2rem;
+}
+
+/* ------------------------------ 6 day weather details ------------------------------ */
+
+.weather-details {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  /* border: 1px solid red; */
+  width: 100%;
+}
+
+.weather-details-day-container {
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+  padding: 1em 2em;
+  height: 15%;
+  max-width: 100%;
+  min-width: 100%;
+  gap: 1em;
+
+  /* border: 1px solid blue; */
+}
+
+.weather-details-day__date {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.weather-details-day__min {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.weather-details-day__max {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.weather-details-day-icon {
+  margin: 0;
+  width: 3em;
+  height: 3em;
+}
+
+.weather-details-day__average {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -1,0 +1,29 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #161616;
+  background-image: radial-gradient(
+    rgba(128, 128, 128, 0.3) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 10px 10px;
+  color: #fff;
+  font-family: "Manrope", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  /* border: 1px solid red; */
+}
+
+.content-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}

@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.news-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5em;
+  padding: 2em;
+  width: 99%;
+  height: 90%;
+  background-color: rgba(36, 36, 36, 1);
+  background-image: radial-gradient(
+    rgba(128, 128, 128, 0.3) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 10px 10px;
+  border: none;
+  border-radius: 0.9em;
+  position: relative;
+}
+
+.news-container::after {
+  content: "";
+  position: absolute;
+  height: 100.4%;
+  width: 100.3%;
+  border-radius: 1em;
+  background-image: linear-gradient(to bottom right, #008cff, #e100ff);
+  z-index: -1;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.news-container-content {
+  opacity: 0;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  /* background-color: transparent; */
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.news-details {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  padding-bottom: 2em;
+  line-height: 1.5;
+  background-color: transparent;
+  animation: fadeIn 2s ease-in-out forwards;
+  opacity: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.news-details img {
+  width: 67%;
+  height: 100%;
+  object-fit: cover;
+  margin-top: 1em;
+  border-radius: 0.9em;
+}
+
+.news-details p {
+  line-height: 1.5;
+  max-width: 1000px;
+  text-align: justify;
+  /* border: 1px solid red; */
+}
+
+.news-details h2 {
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1.5;
+  max-width: 1000px;
+  margin: 0;
+  text-align: center;
+}
+
+.news-details-publish-date {
+  font-size: 1rem;
+  font-weight: 200;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+}

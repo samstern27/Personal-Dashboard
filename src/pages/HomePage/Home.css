@@ -144,13 +144,17 @@ a {
   /* border: 1px solid red; */
 }
 
+.home-header-title {
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 .gradient-border {
   position: relative;
   padding: 2em;
   border-radius: 10px;
   background: rgba(36, 36, 36, 0.4);
   overflow: hidden;
-  box-shadow: 0 0 0 2px transparent;
+  /* box-shadow: 0 0 0 2px transparent; */
   /* Start with opacity 0 for fade-in */
   /* Use animation for fade-in */
 }
@@ -165,6 +169,7 @@ a {
   border-radius: 1em;
   padding: 2px;
   background: linear-gradient(to bottom left, #008cff, #e100ff);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   pointer-events: none;

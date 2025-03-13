@@ -1,0 +1,52 @@
+.stocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2.5em;
+  padding: 2em;
+  width: 99%;
+  height: 90%;
+  background-color: rgba(36, 36, 36, 1);
+  background-image: radial-gradient(
+    rgba(128, 128, 128, 0.3) 0.5px,
+    transparent 0.5px
+  );
+  background-size: 10px 10px;
+  border: none;
+  border-radius: 0.9em;
+  position: relative;
+}
+
+.stocks-container::after {
+  content: "";
+  position: absolute;
+  height: 100.4%;
+  width: 100.3%;
+  border-radius: 1em;
+  background-image: linear-gradient(to bottom right, #008cff, #e100ff);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+.stocks-container-content {
+  opacity: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  animation: fadeIn 2s ease-in-out forwards;
+  overflow: hidden;
+}
+
+.stocks-container-content > h1 {
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+  margin: 0;
+  margin-bottom: 0.25em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}

@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import NewsDetails from "./NewsDetails";
+import Spinner from "react-bootstrap/Spinner";
+import NewsButtons from "./NewsButtons";
+import ArticleDetails from "./ArticleDetails";
 import "./News.css";
 import "../HomePage/Home.css";
 
@@ -8,7 +10,9 @@ const News = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(null);
   const [countryCode, setCountryCode] = useState("");
-  const [newsData, setNewsData] = useState({});
+  const [newsData, setNewsData] = useState({ top_news: [] });
+  const [selectedNews, setSelectedNews] = useState(null);
+  const newsDetailsRef = useRef(null);
 
   const newsApiKey = import.meta.env.VITE_WORLD_NEWS_API_KEY;
 
@@ -66,19 +70,55 @@ const News = () => {
     }
   }, [countryCode]); // Run when countryCode changes
 
-  console.log(newsData);
+  const handleSelectedNews = (id) => {
+    const selected = newsData.top_news.find((story) => story.news[0].id === id);
+    if (selected) {
+      setSelectedNews(selected.news[0]);
+      if (newsDetailsRef.current) {
+        console.log(newsDetailsRef.current);
+        newsDetailsRef.current.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   const newsElements = newsData.top_news
-    ? newsData.top_news.map((story, index) => (
-        <NewsDetails key={index} newsData={story.news[0]} />
-      ))
+    ? newsData.top_news
+        .filter(
+          (story) =>
+            !story.news[0].text.includes("You don't have permission to access")
+        )
+        .map((story) => (
+          <NewsButtons
+            key={story.news[0].id}
+            newsData={story.news[0]}
+            id={story.news[0].id}
+            handleSelectedNews={handleSelectedNews}
+          />
+        ))
     : null;
 
   return (
     <section className="news-container">
       <div className="news-container-content">
         <h1>News</h1>
-
-        {newsElements}
+        {isLoading ? (
+          <div className="loading-container">
+            <Spinner animation="border" variant="secondary" />
+            <p>Loading news for your area...</p>
+          </div>
+        ) : isError ? (
+          <p>Error: {isError}</p>
+        ) : (
+          <div className="news-section">
+            <div className="news-details-button-container">{newsElements}</div>
+            <div className="article-content">
+              <ArticleDetails data={selectedNews} ref={newsDetailsRef} />
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

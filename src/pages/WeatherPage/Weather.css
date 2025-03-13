@@ -41,8 +41,8 @@
   justify-content: space-between;
   animation: weather-fadeIn 3s ease-in-out;
   min-width: 100%;
-  overflow-x: scroll;
-  overflow-y: scroll;
+  /* overflow-x: scroll;
+  overflow-y: scroll; */
   opacity: 0;
   animation: fadeIn 2s ease-in-out forwards;
   /* border: 1px solid red; */

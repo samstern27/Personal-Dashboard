@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.8",
     "date-fns": "^4.1.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
+    "react-chartjs-2": "^5.3.0",
+    "react-chartjs2": "^1.2.1",
     "react-dom": "^19.0.0",
     "react-rain-animation": "^1.0.4",
     "react-router-dom": "^7.1.5"

@@ -4,7 +4,6 @@ import Spinner from "react-bootstrap/Spinner";
 import NewsButtons from "./NewsButtons";
 import ArticleDetails from "./ArticleDetails";
 import "./News.css";
-import "../HomePage/Home.css";
 
 const News = () => {
   const [isLoading, setIsLoading] = useState(true);

@@ -4,6 +4,8 @@ import Home from "./pages/HomePage/Home";
 import Weather from "./pages/WeatherPage/Weather";
 import News from "./pages/NewsPage/News";
 import Stocks from "./pages/StocksPage/Stocks";
+import StockDetails from "./pages/StocksPage/StockDetails";
+import TopStocks from "./pages/StocksPage/TopStocks";
 import Events from "./pages/EventsPage/Events";
 import Notes from "./pages/NotesPage/Notes";
 import Finance from "./pages/FinancePage/Finance";
@@ -18,7 +20,10 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="/weather" element={<Weather />} />
           <Route path="/news" element={<News />} />
-          <Route path="/stocks" element={<Stocks />} />
+          <Route path="/stocks" element={<Stocks />}>
+            <Route index element={<TopStocks />} />
+            <Route path="/stocks/:symbol" element={<StockDetails />} />
+          </Route>
           <Route path="/events" element={<Events />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/finance" element={<Finance />} />

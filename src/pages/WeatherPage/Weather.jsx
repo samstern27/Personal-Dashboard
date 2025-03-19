@@ -87,6 +87,7 @@ const Weather = () => {
 
   return (
     <div className="weather-container">
+      <h2 className="weather-title">Weather</h2>
       {isLoading ? (
         <div className="loading-container">
           <Spinner animation="border" variant="secondary" />
@@ -96,7 +97,6 @@ const Weather = () => {
         <p>Error: {isError}</p>
       ) : (
         <section className="weather-container">
-          <h2 className="weather-title">Weather</h2>
           <h2 className="weather-details__title">7 Day Forecast</h2>
           <h3 className="weather-location">{locationName}</h3>
 

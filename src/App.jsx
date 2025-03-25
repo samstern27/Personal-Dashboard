@@ -7,29 +7,28 @@ import Stocks from "./pages/StocksPage/Stocks";
 import StockDetails from "./pages/StocksPage/StockDetails";
 import TopStocks from "./pages/StocksPage/TopStocks";
 import Events from "./pages/EventsPage/Events";
-import Notes from "./pages/NotesPage/Notes";
-import Finance from "./pages/FinancePage/Finance";
 import "./App.css";
 import Layout from "./components/Layout";
+import { LocationProvider } from "./contexts/LocationContext";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/weather" element={<Weather />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/stocks" element={<Stocks />}>
-            <Route index element={<TopStocks />} />
-            <Route path="/stocks/:symbol" element={<StockDetails />} />
+    <LocationProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/weather" element={<Weather />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/stocks" element={<Stocks />}>
+              <Route index element={<TopStocks />} />
+              <Route path="/stocks/:symbol" element={<StockDetails />} />
+            </Route>
+            <Route path="/events" element={<Events />} />
           </Route>
-          <Route path="/events" element={<Events />} />
-          <Route path="/notes" element={<Notes />} />
-          <Route path="/finance" element={<Finance />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </LocationProvider>
   );
 };
 export default App;

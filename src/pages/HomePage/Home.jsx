@@ -1,3 +1,4 @@
+// Import necessary React components, styles, and assets
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Home.css";
@@ -9,6 +10,7 @@ import notesIcon from "../../assets/icons/sticky-note-line.svg";
 import financeIcon from "../../assets/icons/money-dollar-circle-line.svg";
 import TimeDate from "../../components/TimeDate";
 
+// Home component that serves as the main dashboard page
 const Home = () => {
   return (
     <main className="home-container">

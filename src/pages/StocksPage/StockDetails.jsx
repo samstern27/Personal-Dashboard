@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,10 +11,11 @@ import {
   Legend,
 } from "chart.js";
 import "./Stocks.css"; // Import the CSS file
-import { useParams, Navigate } from "react-router-dom";
-import { useStock } from "./Stocks";
+import { useParams, Navigate, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { StockContext } from "./Stocks";
 
-// Register the required components
+// Register Chart.js components for stock price visualization
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,9 +27,18 @@ ChartJS.register(
 );
 
 const StockDetails = () => {
-  const { stockData, error, loading } = useStock();
+  // Get stock data, error state, and loading state from context
+  const { stockData, error, loading, searchStock } = useContext(StockContext);
+  // Get stock symbol from URL parameters
   const { symbol } = useParams();
 
+  useEffect(() => {
+    if (symbol && !stockData) {
+      searchStock(symbol);
+    }
+  }, [symbol, stockData, searchStock]);
+
+  // Show loading state while data is being fetched
   if (loading) {
     return (
       <div className="stock-loading">
@@ -37,30 +47,25 @@ const StockDetails = () => {
     );
   }
 
+  // Show error state if there's an error
   if (error) {
     return (
       <div className="stock-error">
         <h2>Error</h2>
         <p>{error}</p>
-        {error.includes("We have detected your API key") ? (
-          <p>Please wait a few minutes before trying again.</p>
-        ) : (
-          <p>Please try searching for a different stock symbol.</p>
-        )}
       </div>
     );
   }
 
+  // Redirect to stocks page if no data is available
   if (!stockData) {
     return <Navigate to="/stocks" replace />;
   }
 
-  console.log(stockData);
-
-  // Check if stockData and timeSeries exist before using them
+  // Get time series data from stock data
   const timeSeries = stockData && stockData["Time Series (Daily)"];
 
-  // Get the dates and values
+  // Extract dates and values from time series data
   let labels = timeSeries ? Object.keys(timeSeries) : [];
   let closeValues = timeSeries
     ? Object.values(timeSeries).map((item) => item["4. close"])
@@ -69,20 +74,20 @@ const StockDetails = () => {
     ? Object.values(timeSeries).map((item) => item["5. volume"])
     : [];
 
-  // Calculate percentage changes
+  // Calculate percentage changes between consecutive closing prices
   let percentageChanges = closeValues.map((close, index) => {
     if (index === closeValues.length - 1) return 0;
     const nextClose = closeValues[index + 1];
     return ((close - nextClose) / nextClose) * 100;
   });
 
-  // Reverse all arrays to show oldest to newest
+  // Reverse arrays to show data from oldest to newest
   labels = labels.reverse();
   closeValues = closeValues.reverse();
   volumeValues = volumeValues.reverse();
   percentageChanges = percentageChanges.reverse();
 
-  // Create chart data object with proper checks
+  // Configure chart data with three datasets: price, percentage change, and volume
   const chartData = {
     labels: labels,
     datasets: [
@@ -110,6 +115,7 @@ const StockDetails = () => {
     ],
   };
 
+  // Configure chart options for styling and interaction
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -191,8 +197,12 @@ const StockDetails = () => {
     },
   };
 
+  // Render the stock details component with chart
   return (
     <div className="stock-details">
+      <NavLink to="/stocks" className="stocks-back-button">
+        <i className="fas fa-arrow-left"></i> Back to Stocks
+      </NavLink>
       <h2>{stockData["Meta Data"]["2. Symbol"]}</h2>
       <div className="stock-chart-wrapper">
         {timeSeries ? (

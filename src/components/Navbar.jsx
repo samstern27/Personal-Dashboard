@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 import weatherIcon from "../assets/icons/cloud-line.svg";
 import newsIcon from "../assets/icons/newspaper-line.svg";
@@ -11,103 +11,93 @@ import "../pages/HomePage/Home.css";
 // ------------------------------ Navbar component ------------------------------
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isLeaving, setIsLeaving] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleHomeClick = () => {
+    setIsLeaving(true);
+    // Wait for fade out animation before closing menu
+    setTimeout(() => {
+      closeMenu();
+      setIsLeaving(false);
+    }, 300); // Match the transition duration
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const navLinks = [
+    { to: "/weather", icon: weatherIcon, label: "Weather", color: "#e3e198" },
+    { to: "/news", icon: newsIcon, label: "News", color: "#9CA3E2" },
+    { to: "/stocks", icon: stocksIcon, label: "Stocks", color: "#DC9798" },
+    { to: "/events", icon: eventsIcon, label: "Events", color: "#97DADC" },
+  ];
+
+  // Render the navigation bar with header and navigation links
   return (
     <>
       <header className="home-header gradient-border">
-        <NavLink to="/">
-          <h1 className="home-header-title">
-            {location.pathname === "/" ? "Dashboard" : "Home"}
-          </h1>
-        </NavLink>
-        <nav className="nav-links">
-          <NavLink
-            to="/weather"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#e3e198", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
+        <div className="header-content">
+          {!isMobile && location.pathname !== "/" && (
+            <NavLink
+              to="/"
+              className={`nav-link ${isLeaving ? "leaving" : ""}`}
+              onClick={handleHomeClick}
+            >
+              <i className="fas fa-arrow-left"></i>
+              <span>Home</span>
+            </NavLink>
+          )}
+          <button
+            className="mobile-menu-button"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
           >
-            <div className="nav-link">
-              <img
-                className="nav-icon-weather"
-                src={weatherIcon}
-                alt="Weather"
-              />
-              Weather
-            </div>
-          </NavLink>
-          <NavLink
-            to="/news"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#9CA3E2", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
-          >
-            <div className="nav-link">
-              <img className="nav-icon-news" src={newsIcon} alt="News" />
-              News
-            </div>
-          </NavLink>
-          <NavLink
-            to="/stocks"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#DC9798", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
-          >
-            <div className="nav-link">
-              <img className="nav-icon-stocks" src={stocksIcon} alt="Stocks" />
-              Stocks
-            </div>
-          </NavLink>
-          <NavLink
-            to="/events"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#97DADC", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
-          >
-            <div className="nav-link">
-              <img className="nav-icon-events" src={eventsIcon} alt="Events" />
-              Events
-            </div>
-          </NavLink>
-          <NavLink
-            to="/notes"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#DCB997", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
-          >
-            <div className="nav-link">
-              <img className="nav-icon-notes" src={notesIcon} alt="Notes" />
-              Notes
-            </div>
-          </NavLink>
-          <NavLink
-            to="/finance"
-            style={({ isActive }) =>
-              isActive
-                ? { color: "#98E39F", fontWeight: "400" }
-                : { color: "#cbcbcb", fontWeight: "200" }
-            }
-          >
-            <div className="nav-link">
-              <img
-                className="nav-icon-finance"
-                src={financeIcon}
-                alt="Finance"
-              />
-              Finance
-            </div>
-          </NavLink>
-        </nav>
+            <span className={`menu-line ${isMenuOpen ? "open" : ""}`}></span>
+            <span className={`menu-line ${isMenuOpen ? "open" : ""}`}></span>
+            <span className={`menu-line ${isMenuOpen ? "open" : ""}`}></span>
+          </button>
+
+          <nav className={`nav-links ${isMenuOpen ? "open" : ""}`}>
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                onClick={closeMenu}
+                style={({ isActive }) =>
+                  isActive
+                    ? { color: link.color, fontWeight: "400" }
+                    : { color: "#cbcbcb", fontWeight: "200" }
+                }
+              >
+                <div className="nav-link">
+                  <img
+                    className={`nav-icon-${link.label.toLowerCase()}`}
+                    src={link.icon}
+                    alt={link.label}
+                  />
+                  {link.label}
+                </div>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
       </header>
     </>
   );

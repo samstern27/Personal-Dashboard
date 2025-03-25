@@ -1,0 +1,119 @@
+.event-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 330px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: white;
+  cursor: pointer;
+  margin: 0;
+}
+
+.event-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 140, 255, 0.4);
+}
+
+.event-card__image-container {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  position: relative;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.event-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.event-card:hover .event-card__image {
+  transform: scale(1.03);
+}
+
+.event-card__content {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card__name {
+  margin: 0 0 12px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.3;
+  /* Handle long titles with ellipsis */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.event-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.event-card__date-time,
+.event-card__location,
+.event-card__restrictions {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.event-card__date,
+.event-card__time,
+.event-card__venue,
+.event-card__city,
+.event-card__age,
+.event-card__status {
+  margin: 0;
+  color: #666;
+}
+
+.event-card__time,
+.event-card__venue {
+  font-weight: 500;
+  color: #444;
+}
+
+.event-card__status {
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: 500;
+  align-self: flex-start;
+  margin-top: 5px;
+  color: white;
+}
+
+.event-card__status--onsale {
+  background-color: #28a745; /* Green */
+}
+
+.event-card__status--offsale {
+  background-color: #dc3545; /* Red */
+}
+
+.event-card__status--postponed {
+  background-color: #ffc107; /* Yellow */
+  color: #212529;
+}
+
+.event-card__status--rescheduled {
+  background-color: #fd7e14; /* Orange */
+}

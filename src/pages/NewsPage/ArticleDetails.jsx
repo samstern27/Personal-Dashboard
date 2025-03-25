@@ -2,7 +2,9 @@ import React from "react";
 import newsIcon from "../../assets/icons/newspaper-line.svg";
 import "./News.css";
 
+// ArticleDetails component that displays the full content of a selected news article
 const ArticleDetails = React.forwardRef(({ data }, ref) => {
+  // Show placeholder if no article is selected
   if (!data || !data.text) {
     return (
       <div className="please-select">
@@ -12,6 +14,7 @@ const ArticleDetails = React.forwardRef(({ data }, ref) => {
     );
   }
 
+  // Function to format article text into paragraphs
   function splitIntoParagraphs(text) {
     // Regular expression to match sentence endings, considering initials
     const sentenceRegex = /(?<!\b[A-Z])(?<=[.!?])\s+(?=[A-Z])/g;
@@ -25,17 +28,24 @@ const ArticleDetails = React.forwardRef(({ data }, ref) => {
       paragraphs.push(sentences.slice(i, i + 5).join(" "));
     }
     const finalParagraphs = paragraphs.join("\n\n");
-    console.log(finalParagraphs);
+
     // Join paragraphs with double newlines to separate them
     return finalParagraphs;
   }
+
+  // Format the article text into paragraphs
   const formattedText = splitIntoParagraphs(data.text);
 
+  // Render the article details with title, image, publish date, and formatted text
   return (
     <div className="news-details" ref={ref}>
       <h2>{data.title}</h2>
-      <img src={data.image} alt={data.title} />
+      {/* Only render image if it exists and is not empty */}
+      {data.image && data.image.trim() !== "" && (
+        <img src={data.image} alt={data.title} />
+      )}
       <p className="news-details-publish-date">{data.publish_date}</p>
+      {/* Render each paragraph of the article */}
       <div>
         {formattedText.split("\n\n").map((paragraph, index) => (
           <p key={index}>{paragraph}</p>

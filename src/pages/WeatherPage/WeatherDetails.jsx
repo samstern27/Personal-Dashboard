@@ -3,8 +3,9 @@ import "./Weather.css";
 import { format } from "date-fns";
 import weatherCodes from "./WeatherCodes";
 
+// WeatherDetails component that displays detailed weather information
 const WeatherDetails = ({ data }) => {
-  console.log(data);
+  // Create object for current day's weather data
   const currentDay = {
     date: data.daily.time[0],
     minTemperature: data.daily.temperature_2m_min[0],
@@ -13,6 +14,8 @@ const WeatherDetails = ({ data }) => {
     currentTemperature: data.current.temperature_2m,
     precipitation: data.current.precipitation,
   };
+
+  // Create objects for next 6 days of weather data
   const day2 = {
     date: data.daily.time[1],
     minTemperature: data.daily.temperature_2m_min[1],
@@ -50,9 +53,13 @@ const WeatherDetails = ({ data }) => {
     weathercode: data.daily.weather_code[6],
   };
 
+  // Create array of weather data for the next 6 days
   const weatherElements = [day2, day3, day4, day5, day6, day7];
+
+  // Render weather details with current day and forecast
   return (
     <>
+      {/* Current day weather display */}
       <div className="weather-details-current-day-container">
         <p className="weather-details-current-day-date">Today</p>
         <p className="weather-details-current-day-temperature">Current:</p>
@@ -74,6 +81,8 @@ const WeatherDetails = ({ data }) => {
           Max: {currentDay.maxTemperature}°C
         </p>
       </div>
+
+      {/* 6-day forecast display */}
       <div className="weather-details">
         {weatherElements.map((day, index) => (
           <div className="weather-details-day-container" key={index}>

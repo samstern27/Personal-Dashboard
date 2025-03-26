@@ -6,16 +6,48 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const port = 5001;
+// Use process.env.PORT for deployment platforms
+const port = process.env.PORT || 5001;
 
-// Enable CORS for your frontend
-app.use(cors());
+// Enable CORS with specific origin in production
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://your-frontend-url.netlify.app" // You'll update this with your actual frontend URL
+        : "http://localhost:5173",
+  })
+);
 
 app.use(express.json());
 
 // Add a test endpoint
-app.get("/api/test", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Server is running!" });
+});
+
+// Add translation endpoint
+app.post("/api/translate", async (req, res) => {
+  try {
+    const { text, target, source = "auto" } = req.body;
+
+    if (!text || !target) {
+      return res.status(400).json({
+        error: "Missing required parameters: text and target are required",
+      });
+    }
+
+    const response = await axios.post("https://libretranslate.de/translate", {
+      q: text,
+      source,
+      target,
+    });
+
+    res.json({ translation: response.data.translatedText });
+  } catch (error) {
+    console.error("Translation error:", error.response?.data || error.message);
+    res.status(500).json({ error: "Translation service error" });
+  }
 });
 
 // Endpoint to fetch events
@@ -72,3 +104,5 @@ app.get("/api/events", async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Example frontend code to use the translation endpoint

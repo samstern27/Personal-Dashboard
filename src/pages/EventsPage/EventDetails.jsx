@@ -2,6 +2,7 @@ import React from "react";
 import "./EventDetails.css";
 
 const EventDetails = ({ event, onClose }) => {
+  console.log("EventDetails received event:", event); // Debug log
   // This component displays detailed information about a selected event
 
   // In a real implementation:
@@ -123,19 +124,6 @@ const EventDetails = ({ event, onClose }) => {
               {event.pleaseNote && <p>{event.pleaseNote}</p>}
             </div>
           </div>
-
-          <div className="event-details__description">
-            <h2>About This Event</h2>
-            {event.info || event.description ? (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: event.info || event.description,
-                }}
-              />
-            ) : (
-              <p>No description available for this event.</p>
-            )}
-          </div>
         </div>
 
         <div className="event-details__sidebar">
@@ -148,15 +136,6 @@ const EventDetails = ({ event, onClose }) => {
             >
               Buy Tickets
             </a>
-
-            <div className="event-details__share">
-              <h3>Share This Event</h3>
-              <div className="event-details__share-buttons">
-                <button>Facebook</button>
-                <button>Twitter</button>
-                <button>Email</button>
-              </div>
-            </div>
 
             <div className="event-details__organizer">
               <h3>Event Organizer</h3>

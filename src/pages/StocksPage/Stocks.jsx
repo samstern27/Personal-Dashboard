@@ -88,20 +88,23 @@ const Stocks = () => {
       }
 
       const data = await response.json();
+      console.log("API Response Data:", data); // Debug log
+
+      // Handle API rate limit error
+      if (data.Information && data.Information.includes("API key")) {
+        setIsRateLimited(true);
+        throw new Error("RATE_LIMIT");
+      }
+
+      // Validate received data
+      if (!data["Meta Data"]) {
+        console.error("Invalid data structure:", data); // Debug log
+        throw new Error("INVALID_SYMBOL");
+      }
 
       // Only update state if component is still mounted
       if (isComponentMounted.current) {
-        // Handle API rate limit error
-        if (data.Information && data.Information.includes("API key")) {
-          setIsRateLimited(true);
-          throw new Error("RATE_LIMIT");
-        }
-
-        // Validate received data
-        if (!data["Meta Data"]) {
-          throw new Error("INVALID_SYMBOL");
-        }
-
+        console.log("Setting stock data:", data); // Debug log
         setSelectedStock(data);
         setStockData(data);
         setIsRateLimited(false); // Reset rate limit if successful
@@ -109,7 +112,7 @@ const Stocks = () => {
     } catch (error) {
       // Only update error state if component is mounted and error isn't from abort
       if (isComponentMounted.current && error.name !== "AbortError") {
-        console.log(error);
+        console.error("Stock search error:", error);
         if (error.message === "RATE_LIMIT") {
           setError(
             "Network Error: API request limit reached. Please try again later."
@@ -125,6 +128,7 @@ const Stocks = () => {
       }
     } finally {
       if (isComponentMounted.current) {
+        console.log("Setting loading to false"); // Debug log
         setLoading(false);
       }
     }
@@ -161,19 +165,21 @@ const Stocks = () => {
 
         const data = await response.json();
 
+        // Handle API rate limit error
+        if (data.Information && data.Information.includes("API key")) {
+          setIsRateLimited(true);
+          throw new Error("RATE_LIMIT");
+        }
+
         // Only update state if component is still mounted
         if (isComponentMounted.current) {
-          if (data.Information && data.Information.includes("API key")) {
-            setIsRateLimited(true);
-            throw new Error("RATE_LIMIT");
-          }
-
           setPopularStocks(data);
           setIsRateLimited(false); // Reset rate limit if successful
         }
       } catch (error) {
         // Only update error state if component is mounted and error isn't from abort
         if (isComponentMounted.current && error.name !== "AbortError") {
+          console.error("Popular stocks fetch error:", error);
           if (error.message === "RATE_LIMIT") {
             setError(
               "Network Error: API request limit reached. Please try again later."
@@ -182,6 +188,7 @@ const Stocks = () => {
           } else {
             setError("An unexpected error occurred. Please try again.");
           }
+          setPopularStocks([]);
         }
       } finally {
         if (isComponentMounted.current) {

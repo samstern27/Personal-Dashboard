@@ -63,16 +63,31 @@ const StockDetails = () => {
   }
 
   // Get time series data from stock data
-  const timeSeries = stockData && stockData["Time Series (Daily)"];
+  console.log("StockDetails received data:", stockData); // Debug log
+
+  const timeSeriesKey = Object.keys(stockData).find((key) =>
+    key.includes("Time Series")
+  );
+  const timeSeries = timeSeriesKey ? stockData[timeSeriesKey] : null;
+
+  if (!timeSeries) {
+    console.error("No time series data found in:", stockData);
+    return (
+      <div className="stock-error">
+        <h2>Error</h2>
+        <p>No time series data available for this stock.</p>
+      </div>
+    );
+  }
 
   // Extract dates and values from time series data
-  let labels = timeSeries ? Object.keys(timeSeries) : [];
-  let closeValues = timeSeries
-    ? Object.values(timeSeries).map((item) => item["4. close"])
-    : [];
-  let volumeValues = timeSeries
-    ? Object.values(timeSeries).map((item) => item["5. volume"])
-    : [];
+  let labels = Object.keys(timeSeries);
+  let closeValues = Object.values(timeSeries).map((item) =>
+    parseFloat(item["4. close"])
+  );
+  let volumeValues = Object.values(timeSeries).map((item) =>
+    parseInt(item["5. volume"])
+  );
 
   // Calculate percentage changes between consecutive closing prices
   let percentageChanges = closeValues.map((close, index) => {

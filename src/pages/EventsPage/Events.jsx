@@ -5,6 +5,8 @@ import EventDetails from "./EventDetails";
 import Spinner from "react-bootstrap/Spinner";
 import "./Events.css";
 
+const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5173" : "";
+
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,12 +29,11 @@ const Events = () => {
   }, [coords]);
 
   const fetchEvents = async (lat, lng, distance) => {
-    setLoading(true);
-    setError(null);
-
     try {
+      setLoading(true);
+      setError(null);
       const response = await fetch(
-        `http://localhost:5001/api/events?lat=${lat}&lng=${lng}&radius=${distance}`,
+        `${API_BASE_URL}/api/events?lat=${lat}&lng=${lng}&radius=${distance}`,
         {
           headers: {
             Accept: "application/json",
@@ -40,48 +41,20 @@ const Events = () => {
           },
         }
       );
-
-      if (!response.ok) {
-        let errorMessage;
-
-        switch (response.status) {
-          case 429:
-            errorMessage = "Too many requests. Please try again later.";
-            break;
-          case 403:
-            errorMessage = "API access forbidden. Check your API key.";
-            break;
-          case 404:
-            errorMessage = "Event data not found.";
-            break;
-          default:
-            errorMessage = `Server error: ${response.status}`;
-        }
-
-        throw new Error(errorMessage);
-      }
-
       const data = await response.json();
 
-      // Check for API-specific error responses
-      if (data.fault) {
-        throw new Error(data.fault.faultstring || "API Error");
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to fetch events");
       }
 
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setEvents(data._embedded?.events || []);
-    } catch (err) {
-      console.error("Error fetching events:", err);
-      if (err.message.includes("Failed to fetch")) {
-        setError(
-          "Cannot connect to server. Please make sure the server is running."
-        );
+      if (data._embedded && data._embedded.events) {
+        setEvents(data._embedded.events);
       } else {
-        setError(err.message);
+        setEvents([]);
       }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      setError(error.message);
     } finally {
       setLoading(false);
     }

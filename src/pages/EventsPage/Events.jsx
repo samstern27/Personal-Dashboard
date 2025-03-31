@@ -5,7 +5,8 @@ import EventDetails from "./EventDetails";
 import Spinner from "react-bootstrap/Spinner";
 import "./Events.css";
 
-const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5173" : "";
+// In production, API calls will be made to the same domain
+const API_BASE_URL = "";
 
 const Events = () => {
   const [events, setEvents] = useState([]);

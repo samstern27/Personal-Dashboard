@@ -1,11 +1,11 @@
-import ClearSky from "../../assets/icons/weatherIcons/clear-sky.svg";
+import ClearSky from "../../assets/icons/weatherIcons/ClearSky.svg";
 import Foggy from "../../assets/icons/weatherIcons/Foggy.svg";
-import HeavyRain from "../../assets/icons/weatherIcons/heavy-rain.svg";
-import LightDrizzle from "../../assets/icons/weatherIcons/light-drizzle.svg";
-import Rain from "../../assets/icons/weatherIcons/rain.svg";
-import Snowing from "../../assets/icons/weatherIcons/snowing.svg";
-import Storm from "../../assets/icons/weatherIcons/storm.svg";
-import SunCloudy from "../../assets/icons/weatherIcons/sun-cloudy.svg";
+import HeavyRain from "../../assets/icons/weatherIcons/HeavyRain.svg";
+import LightDrizzle from "../../assets/icons/weatherIcons/LightDrizzle.svg";
+import Rain from "../../assets/icons/weatherIcons/Rain.svg";
+import Snowing from "../../assets/icons/weatherIcons/Snowing.svg";
+import Storm from "../../assets/icons/weatherIcons/Storm.svg";
+import SunCloudy from "../../assets/icons/weatherIcons/SunCloudy.svg";
 
 // Mapping of weather codes to corresponding weather icons
 const weatherCodes = {

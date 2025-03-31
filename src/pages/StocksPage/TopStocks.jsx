@@ -20,7 +20,7 @@ const TopStocks = () => {
   };
 
   const popularStocksTable =
-    popularStocks && popularStocks.top_gainers
+    !loading && popularStocks && popularStocks.top_gainers
       ? popularStocks.top_gainers.map((stock) => (
           <tr key={stock.ticker}>
             <td>

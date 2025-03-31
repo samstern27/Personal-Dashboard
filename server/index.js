@@ -14,7 +14,10 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? "https://your-frontend-url.netlify.app" // You'll update this with your actual frontend URL
+        ? [
+            "https://personal-dashboard-ogqq.netlify.app",
+            "http://localhost:5173",
+          ]
         : "http://localhost:5173",
   })
 );

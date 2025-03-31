@@ -14,6 +14,7 @@ import "./Stocks.css"; // Import the CSS file
 import { useParams, Navigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { StockContext } from "./Stocks";
+import Spinner from "react-bootstrap/Spinner";
 
 // Register Chart.js components for stock price visualization
 ChartJS.register(
@@ -33,16 +34,23 @@ const StockDetails = () => {
   const { symbol } = useParams();
 
   useEffect(() => {
-    if (symbol && !stockData) {
-      searchStock(symbol);
-    }
+    const fetchData = async () => {
+      if (
+        symbol &&
+        (!stockData || stockData["Meta Data"]["2. Symbol"] !== symbol)
+      ) {
+        await searchStock(symbol);
+      }
+    };
+    fetchData();
   }, [symbol, stockData, searchStock]);
 
   // Show loading state while data is being fetched
   if (loading) {
     return (
-      <div className="stock-loading">
-        <h2>Loading stock data...</h2>
+      <div className="loading-container">
+        <Spinner animation="border" variant="secondary" />
+        <p>Loading stock data...</p>
       </div>
     );
   }
@@ -63,15 +71,12 @@ const StockDetails = () => {
   }
 
   // Get time series data from stock data
-  console.log("StockDetails received data:", stockData); // Debug log
-
   const timeSeriesKey = Object.keys(stockData).find((key) =>
     key.includes("Time Series")
   );
   const timeSeries = timeSeriesKey ? stockData[timeSeriesKey] : null;
 
   if (!timeSeries) {
-    console.error("No time series data found in:", stockData);
     return (
       <div className="stock-error">
         <h2>Error</h2>
@@ -216,7 +221,7 @@ const StockDetails = () => {
   return (
     <div className="stock-details">
       <NavLink to="/stocks" className="stocks-back-button">
-        <i className="fas fa-arrow-left"></i> Back to Stocks
+        <i className="fas fa-arrow-left back-button-icon"></i> Back to Stocks
       </NavLink>
       <h2>{stockData["Meta Data"]["2. Symbol"]}</h2>
       <div className="stock-chart-wrapper">

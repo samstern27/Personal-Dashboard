@@ -74,10 +74,6 @@ a {
   font-size: 1.5rem;
   font-weight: 500;
   color: #cbcbcb;
-}
-
-.home-header-title,
-.time {
   text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.25);
 }
 
@@ -175,9 +171,19 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 100vh;
-  overflow-y: auto;
+  padding: 2.5em;
+  /* border: 1px solid blue; */
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   /* border: 1px solid red; */
 }
 
@@ -222,145 +228,35 @@ a {
   animation: fadeIn 1s ease-in-out forwards;
 }
 
-@keyframes moveGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .mobile-menu-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 1em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1001;
-    background: none;
-  }
-
-  .header-content {
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-start;
-    padding: 0;
-    width: 100%;
-    background: none;
-  }
-
-  .home-header {
-    margin: 0;
-    padding: 0;
-    min-width: 0;
-    height: auto;
-    width: 100%;
-    background: none;
-  }
-
-  .home-header.gradient-border {
-    background: none;
-    padding: 0;
-  }
-
-  .home-header.gradient-border::before {
-    display: none;
-  }
-
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: calc(100% - 5em);
-    height: auto;
-    max-height: 100vh;
-    background-color: rgba(36, 36, 36, 0.95);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    transition: right 0.3s ease-in-out;
-    z-index: 999;
-    margin: 2.5em;
-    padding: 2em;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-    border-radius: 0.9em;
-    border-left: none;
-  }
-
-  .nav-links.open {
-    right: 0;
-  }
-
-  .nav-link {
-    width: 100%;
-    padding: 0.7em;
-    margin: 0.3em 0;
-    justify-content: flex-start;
-  }
-
-  .time-date-container {
-    position: static;
-    margin-top: 4em;
-    margin-left: 2.5em;
-    align-items: flex-start;
-    height: auto;
-  }
-
-  .time {
-    font-size: 5rem;
-  }
-}
-
 /* ------------------------------ Time and Date ------------------------------ */
 
 .time-date-container {
-  opacity: 0;
-  font-family: "Manrope", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
-  padding-top: 0;
-  position: absolute;
-  top: 1em;
-  right: 2.5em;
-  height: auto;
-  animation: fadeIn 1s ease-in-out forwards;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  /* border: 1px solid red; */
 }
 
 .time {
-  padding-top: 0;
-  margin-top: 0;
   font-size: 7rem;
   font-weight: 100;
+  line-height: 0.8;
+  margin: 0 0 0.2em 0;
+  padding: 0;
+  display: block;
+}
+
+.date {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  display: block;
+  line-height: 1;
 }
 
 .header-content {
@@ -401,86 +297,62 @@ a {
   transform: rotate(-45deg) translate(7px, -6px);
 }
 
-@media screen and (max-width: 768px) {
-  .mobile-menu-button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-right: 0;
-    position: relative;
-    z-index: 1001;
+.translate-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  /* border: 1px solid green; */
+}
+
+.translate-container h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.3em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.translate-container h2 {
+  font-size: 2rem;
+  color: #97dadc;
+  margin-bottom: 0.2em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.translate-container h3 {
+  font-size: 1.5rem;
+  color: #cbcbcb;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------ Animations ------------------------------ */
+
+@keyframes moveGradient {
+  0% {
+    background-position: 0% 50%;
   }
-
-  .header-content {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    width: 100%;
+  50% {
+    background-position: 100% 50%;
   }
-
-  .home-header {
-    margin: 2.5em;
-    padding: 0;
-    min-width: 0;
-    height: auto;
-    width: calc(100% - 5em);
+  100% {
+    background-position: 0% 50%;
   }
+}
 
-  /* .home-header::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    background-image: linear-gradient(to bottom right, #008cff, #e100ff);
-    border-radius: 1em;
-    z-index: -1;
-    animation: fadeIn 2s ease-in-out forwards;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  } */
-
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: calc(100% - 5em);
-    height: auto;
-    max-height: 100vh;
-    background-color: rgba(36, 36, 36, 0.95);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    transition: right 0.3s ease-in-out;
-    z-index: 999;
-    margin: 2.5em;
-    padding: 2em;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
-    border-radius: 0.9em;
-    border-left: none;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-  .nav-links.open {
-    right: 0;
+  to {
+    opacity: 1;
   }
+}
 
-  .nav-link {
-    width: 100%;
-    padding: 0.7em;
-    margin: 0.3em 0;
-    justify-content: flex-start;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
   }
-
-  .time-date-container {
-    position: static;
-    margin-top: 4em;
-    margin-left: 2.5em;
-    align-items: flex-start;
-    height: auto;
-  }
-
-  .time {
-    font-size: 5rem;
+  to {
+    opacity: 0;
   }
 }

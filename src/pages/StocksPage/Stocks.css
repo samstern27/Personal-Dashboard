@@ -16,7 +16,7 @@
   width: 100%;
   height: 100%;
   max-width: 100%;
-  max-height: 90%;
+  max-height: 90vh;
   background-color: rgba(36, 36, 36, 1);
   background-image: radial-gradient(
     rgba(128, 128, 128, 0.3) 0.5px,
@@ -43,12 +43,14 @@
 .stocks-container-content {
   opacity: 0;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 100%;
   animation: fadeIn 2s ease-in-out forwards;
+  overflow: auto;
+  max-height: 100%;
 }
 
 .stocks-container-content > h1 {
@@ -63,13 +65,13 @@
 
 .stock-chart-wrapper {
   width: 100%;
-  max-height: 27em;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   position: relative;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
+  overflow: hidden;
 }
 
 .stock-chart-container {
@@ -83,16 +85,16 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  /* border: 1px solid red; */
+  min-height: 0;
+  overflow: hidden;
 }
 
 .stock-details {
-  margin: 0 auto;
-  margin-top: auto;
-  margin-bottom: 6em;
   width: 100%;
-  height: auto;
-  /* border: 1px solid red; */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .stock-details h2 {
@@ -295,10 +297,10 @@
 }
 
 .stock-chart {
-  margin-bottom: 1em;
   width: 100%;
   height: 100%;
-  min-width: 0; /* Prevents flex items from growing beyond their container */
+  min-height: 0; /* Important for flex child */
+  flex: 1;
 }
 
 .stocks-back-button {
@@ -311,12 +313,18 @@
   transition: all 0.3s ease;
   margin-bottom: 20px;
   margin-top: 2em;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
 }
 
 .stocks-back-button:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(-5px);
+}
+
+.back-button-icon {
+  margin-right: 0.5em;
+  font-size: 1.5em;
 }
 
 .stocks-back-button-symbol {
@@ -368,6 +376,11 @@
 
   .stock-chart-container {
     padding: 10px;
+  }
+
+  .stocks-container {
+    margin: 1em;
+    padding: 1em;
   }
 }
 

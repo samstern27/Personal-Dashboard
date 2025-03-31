@@ -54,11 +54,9 @@ export default function TimeDate() {
   // Render time and date display
   return (
     <div className="time-date-container">
-      {/* Display current time in 12-hour format */}
       <time className="time">
         {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
       </time>
-      {/* Display formatted date with ordinal suffix */}
       <time className="date">{finalFormattedDate}</time>
     </div>
   );

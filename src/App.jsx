@@ -10,25 +10,28 @@ import Events from "./pages/EventsPage/Events";
 import "./App.css";
 import Layout from "./components/Layout";
 import { LocationProvider } from "./contexts/LocationContext";
-
+import { WeatherProvider } from "./contexts/WeatherContext";
 const App = () => {
   return (
     <LocationProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/news" element={<News />} />
-            <Route path="/stocks" element={<Stocks />}>
-              <Route index element={<TopStocks />} />
-              <Route path="/stocks/:symbol" element={<StockDetails />} />
+      <WeatherProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/weather" element={<Weather />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/stocks" element={<Stocks />}>
+                <Route index element={<TopStocks />} />
+                <Route path="/stocks/:symbol" element={<StockDetails />} />
+              </Route>
+              <Route path="/events" element={<Events />} />
             </Route>
-            <Route path="/events" element={<Events />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </WeatherProvider>
     </LocationProvider>
   );
 };
+
 export default App;

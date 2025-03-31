@@ -1,54 +1,45 @@
-import ClearSky from "../../assets/icons/weatherIcons/Clear-sky.svg";
-import Foggy from "../../assets/icons/weatherIcons/Foggy.svg";
-import HeavyRain from "../../assets/icons/weatherIcons/Heavy-rain.svg";
-import LightDrizzle from "../../assets/icons/weatherIcons/Light-drizzle.svg";
-import Rain from "../../assets/icons/weatherIcons/Rain.svg";
-import Snowing from "../../assets/icons/weatherIcons/Snowing.svg";
-import Storm from "../../assets/icons/weatherIcons/Storm.svg";
-import SunCloudy from "../../assets/icons/weatherIcons/Sun-cloudy.svg";
-
 // Mapping of weather codes to corresponding weather icons
 const weatherCodes = {
   // Clear sky conditions
-  0: ClearSky,
+  0: "/weatherIcons/Clear-sky.svg",
 
   // Partly cloudy conditions
-  1: SunCloudy,
-  2: SunCloudy,
-  3: SunCloudy,
+  1: "/weatherIcons/Sun-cloudy.svg",
+  2: "/weatherIcons/Sun-cloudy.svg",
+  3: "/weatherIcons/Sun-cloudy.svg",
 
   // Foggy conditions
-  45: Foggy,
-  48: Foggy,
+  45: "/weatherIcons/Foggy.svg",
+  48: "/weatherIcons/Foggy.svg",
 
   // Light drizzle conditions
-  51: LightDrizzle,
-  53: LightDrizzle,
-  55: LightDrizzle,
+  51: "/weatherIcons/Light-drizzle.svg",
+  53: "/weatherIcons/Light-drizzle.svg",
+  55: "/weatherIcons/Light-drizzle.svg",
 
   // Rain conditions
-  61: Rain,
-  63: Rain,
-  65: Rain,
+  61: "/weatherIcons/Rain.svg",
+  63: "/weatherIcons/Rain.svg",
+  65: "/weatherIcons/Rain.svg",
 
   // Snow conditions
-  71: Snowing,
-  73: Snowing,
-  75: Snowing,
+  71: "/weatherIcons/Snowing.svg",
+  73: "/weatherIcons/Snowing.svg",
+  75: "/weatherIcons/Snowing.svg",
 
   // Heavy rain conditions
-  80: HeavyRain,
-  81: HeavyRain,
-  82: HeavyRain,
+  80: "/weatherIcons/Heavy-rain.svg",
+  81: "/weatherIcons/Heavy-rain.svg",
+  82: "/weatherIcons/Heavy-rain.svg",
 
   // Heavy snow conditions
-  85: Snowing,
-  86: Snowing,
+  85: "/weatherIcons/Snowing.svg",
+  86: "/weatherIcons/Snowing.svg",
 
   // Storm conditions
-  95: Storm,
-  96: Storm,
-  99: Storm,
+  95: "/weatherIcons/Storm.svg",
+  96: "/weatherIcons/Storm.svg",
+  99: "/weatherIcons/Storm.svg",
 };
 
 export default weatherCodes;

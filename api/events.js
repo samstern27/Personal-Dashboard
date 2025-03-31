@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       });
     }
 
-    if (!process.env.VITE_TICKETMASTER_API_KEY) {
+    if (!process.env.TICKETMASTER_API_KEY) {
       return res.status(500).json({
         error: "API key not configured on server",
       });
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
           latlong: `${lat},${lng}`,
           radius: radius,
           unit: "km",
-          apikey: process.env.VITE_TICKETMASTER_API_KEY,
+          apikey: process.env.TICKETMASTER_API_KEY,
         },
       }
     );

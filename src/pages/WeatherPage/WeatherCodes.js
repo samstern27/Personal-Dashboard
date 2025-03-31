@@ -1,5 +1,5 @@
 import ClearSky from "../../assets/icons/weatherIcons/clear-sky.svg";
-import Foggy from "../../assets/icons/weatherIcons/foggy.svg";
+import Foggy from "../../assets/icons/weatherIcons/Foggy.svg";
 import HeavyRain from "../../assets/icons/weatherIcons/heavy-rain.svg";
 import LightDrizzle from "../../assets/icons/weatherIcons/light-drizzle.svg";
 import Rain from "../../assets/icons/weatherIcons/rain.svg";

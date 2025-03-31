@@ -42,11 +42,25 @@ const Events = () => {
           },
         }
       );
-      const data = await response.json();
 
+      // Check if response is ok before trying to parse JSON
       if (!response.ok) {
-        throw new Error(data.error || "Failed to fetch events");
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to fetch events");
+        } else {
+          throw new Error("Server error: Failed to fetch events");
+        }
       }
+
+      // Check content type before parsing
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Invalid response format from server");
+      }
+
+      const data = await response.json();
 
       if (data._embedded && data._embedded.events) {
         setEvents(data._embedded.events);
@@ -56,6 +70,7 @@ const Events = () => {
     } catch (error) {
       console.error("Error fetching events:", error);
       setError(error.message);
+      setEvents([]);
     } finally {
       setLoading(false);
     }

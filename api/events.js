@@ -12,6 +12,8 @@ export default async function handler(req, res) {
     "Access-Control-Allow-Headers",
     "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
   );
+  // Always set JSON content type
+  res.setHeader("Content-Type", "application/json");
 
   // Handle OPTIONS request
   if (req.method === "OPTIONS") {
@@ -51,7 +53,7 @@ export default async function handler(req, res) {
       }
     );
 
-    res.json(response.data);
+    return res.status(200).json(response.data);
   } catch (error) {
     console.error(
       "Error fetching events:",
@@ -60,15 +62,17 @@ export default async function handler(req, res) {
 
     // Handle specific error cases
     if (error.response?.status === 429) {
-      res
+      return res
         .status(429)
         .json({ error: "Rate limit exceeded. Please try again later." });
     } else if (error.response?.status === 401) {
-      res.status(401).json({ error: "Invalid API key" });
+      return res.status(401).json({ error: "Invalid API key" });
     } else if (error.code === "ECONNREFUSED") {
-      res.status(503).json({ error: "Cannot connect to Ticketmaster API" });
+      return res
+        .status(503)
+        .json({ error: "Cannot connect to Ticketmaster API" });
     } else {
-      res.status(500).json({ error: "Failed to fetch events" });
+      return res.status(500).json({ error: "Failed to fetch events" });
     }
   }
 }

@@ -33,6 +33,8 @@ const Events = () => {
     try {
       setLoading(true);
       setError(null);
+      console.log("Fetching events with params:", { lat, lng, distance });
+
       const response = await fetch(
         `${API_BASE_URL}/api/events?lat=${lat}&lng=${lng}&radius=${distance}`,
         {
@@ -43,13 +45,22 @@ const Events = () => {
         }
       );
 
+      console.log("Response received:", {
+        status: response.status,
+        statusText: response.statusText,
+        contentType: response.headers.get("content-type"),
+      });
+
       // Check if response is ok before trying to parse JSON
       if (!response.ok) {
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
           const errorData = await response.json();
+          console.error("Error response data:", errorData);
           throw new Error(errorData.error || "Failed to fetch events");
         } else {
+          const text = await response.text();
+          console.error("Non-JSON error response:", text);
           throw new Error("Server error: Failed to fetch events");
         }
       }
@@ -57,10 +68,16 @@ const Events = () => {
       // Check content type before parsing
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
+        const text = await response.text();
+        console.error("Invalid content type response:", {
+          contentType,
+          responseText: text,
+        });
         throw new Error("Invalid response format from server");
       }
 
       const data = await response.json();
+      console.log("Parsed response data:", data);
 
       if (data._embedded && data._embedded.events) {
         setEvents(data._embedded.events);
@@ -68,7 +85,10 @@ const Events = () => {
         setEvents([]);
       }
     } catch (error) {
-      console.error("Error fetching events:", error);
+      console.error("Error fetching events:", {
+        message: error.message,
+        stack: error.stack,
+      });
       setError(error.message);
       setEvents([]);
     } finally {

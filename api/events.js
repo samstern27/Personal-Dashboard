@@ -1,6 +1,12 @@
 import axios from "axios";
 
 export default async function handler(req, res) {
+  console.log("API Request received:", {
+    method: req.method,
+    query: req.query,
+    headers: req.headers,
+  });
+
   // Enable CORS
   res.setHeader("Access-Control-Allow-Credentials", true);
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -36,10 +42,17 @@ export default async function handler(req, res) {
     }
 
     if (!process.env.TICKETMASTER_API_KEY) {
+      console.error("API key not found in environment");
       return res.status(500).json({
         error: "API key not configured on server",
       });
     }
+
+    console.log("Making request to Ticketmaster API with params:", {
+      latlong: `${lat},${lng}`,
+      radius,
+      unit: "km",
+    });
 
     const response = await axios.get(
       `https://app.ticketmaster.com/discovery/v2/events.json`,
@@ -53,12 +66,17 @@ export default async function handler(req, res) {
       }
     );
 
+    console.log("Ticketmaster API response status:", response.status);
+    console.log("Ticketmaster API response headers:", response.headers);
+
     return res.status(200).json(response.data);
   } catch (error) {
-    console.error(
-      "Error fetching events:",
-      error.response?.data || error.message
-    );
+    console.error("Detailed error information:", {
+      error: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      headers: error.response?.headers,
+    });
 
     // Handle specific error cases
     if (error.response?.status === 429) {
@@ -72,7 +90,10 @@ export default async function handler(req, res) {
         .status(503)
         .json({ error: "Cannot connect to Ticketmaster API" });
     } else {
-      return res.status(500).json({ error: "Failed to fetch events" });
+      return res.status(500).json({
+        error: "Failed to fetch events",
+        details: error.message,
+      });
     }
   }
 }

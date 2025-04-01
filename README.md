@@ -17,6 +17,10 @@ Dashboard showcasing API usage
 - React Hooks
 - React Memo
 
+## URL
+
+- https://personal-dashboard-samstern27s-projects.vercel.app/
+
 ## Installation
 
 1. Clone the repository

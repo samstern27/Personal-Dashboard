@@ -52,5 +52,36 @@ Note: Make sure your backend server is running on the port specified in VITE_API
 ## Installation
 
 1. Clone the repository
+
+```bash
+git clone [your-repository-url]
+cd personal-dashboard
+```
+
 2. Install dependencies
-3. Run the development server
+
+```bash
+npm install
+```
+
+3. Set up environment variables
+
+- Create a `.env` file in the root directory
+- Add the required environment variables as specified in the [Environment Variables](#environment-variables) section above
+- Get your API keys from the respective services
+
+4. Start the backend server
+
+```bash
+# The command to start your backend server
+# (You'll need to specify the actual command)
+npm run server
+```
+
+5. Start the development server
+
+```bash
+npm run dev
+```
+
+The application should now be running on `http://localhost:5173` (or your configured port)

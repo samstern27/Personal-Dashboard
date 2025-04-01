@@ -5,8 +5,9 @@ import EventDetails from "./EventDetails";
 import Spinner from "react-bootstrap/Spinner";
 import "./Events.css";
 
-// In production, API calls will be made to the same domain
-const API_BASE_URL = "";
+// In development, use localhost. In production, use relative URL
+const API_BASE_URL =
+  process.env.NODE_ENV === "development" ? "http://localhost:5001" : "";
 
 const Events = () => {
   const [events, setEvents] = useState([]);

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, memo } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -108,114 +108,120 @@ const StockDetails = () => {
   percentageChanges = percentageChanges.reverse();
 
   // Configure chart data with three datasets: price, percentage change, and volume
-  const chartData = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Price (Close)",
-        data: closeValues,
-        borderColor: "rgb(75, 192, 192)",
-        tension: 0.1,
-        yAxisID: "y",
-      },
-      {
-        label: "24hr % Change",
-        data: percentageChanges,
-        borderColor: "rgb(255, 99, 132)",
-        tension: 0.1,
-        yAxisID: "y1",
-      },
-      {
-        label: "Volume",
-        data: volumeValues,
-        borderColor: "rgb(153, 102, 255)",
-        tension: 0.1,
-        yAxisID: "y2",
-      },
-    ],
-  };
+  const chartData = useMemo(
+    () => ({
+      labels: labels,
+      datasets: [
+        {
+          label: "Price (Close)",
+          data: closeValues,
+          borderColor: "rgb(75, 192, 192)",
+          tension: 0.1,
+          yAxisID: "y",
+        },
+        {
+          label: "24hr % Change",
+          data: percentageChanges,
+          borderColor: "rgb(255, 99, 132)",
+          tension: 0.1,
+          yAxisID: "y1",
+        },
+        {
+          label: "Volume",
+          data: volumeValues,
+          borderColor: "rgb(153, 102, 255)",
+          tension: 0.1,
+          yAxisID: "y2",
+        },
+      ],
+    }),
+    [labels, closeValues, percentageChanges, volumeValues]
+  );
 
   // Configure chart options for styling and interaction
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    interaction: {
-      mode: "index",
-      intersect: false,
-    },
-    plugins: {
-      legend: {
-        position: "top",
-        labels: {
-          font: {
-            size: 12,
-            color: "white",
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+      plugins: {
+        legend: {
+          position: "top",
+          labels: {
+            font: {
+              size: 12,
+              color: "white",
+            },
           },
         },
       },
-    },
-    scales: {
-      x: {
-        ticks: {
-          font: {
-            size: 10,
-            color: "white",
+      scales: {
+        x: {
+          ticks: {
+            font: {
+              size: 10,
+              color: "white",
+            },
+            maxRotation: 90,
+            minRotation: 90,
+            autoSkip: true,
+            maxTicksLimit: 20,
           },
-          maxRotation: 90,
-          minRotation: 90,
-          autoSkip: true,
-          maxTicksLimit: 20,
+          grid: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
         },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
-      y: {
-        type: "linear",
-        display: true,
-        position: "left",
-        title: {
+        y: {
+          type: "linear",
           display: true,
-          text: "Price ($)",
-          color: "rgb(75, 192, 192)",
+          position: "left",
+          title: {
+            display: true,
+            text: "Price ($)",
+            color: "rgb(75, 192, 192)",
+          },
+          grid: {
+            color: "rgba(255, 255, 255, 0.1)",
+          },
         },
-        grid: {
-          color: "rgba(255, 255, 255, 0.1)",
-        },
-      },
-      y1: {
-        type: "linear",
-        display: true,
-        position: "right",
-        title: {
+        y1: {
+          type: "linear",
           display: true,
-          text: "% Change",
-          color: "rgb(255, 99, 132)",
+          position: "right",
+          title: {
+            display: true,
+            text: "% Change",
+            color: "rgb(255, 99, 132)",
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
         },
-        grid: {
-          drawOnChartArea: false,
-        },
-      },
-      y2: {
-        type: "linear",
-        display: true,
-        position: "right",
-        title: {
+        y2: {
+          type: "linear",
           display: true,
-          text: "Volume",
-          color: "rgb(153, 102, 255)",
-        },
-        grid: {
-          drawOnChartArea: false,
+          position: "right",
+          title: {
+            display: true,
+            text: "Volume",
+            color: "rgb(153, 102, 255)",
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
         },
       },
-    },
-    layout: {
-      padding: {
-        bottom: 30,
+      layout: {
+        padding: {
+          bottom: 30,
+        },
       },
-    },
-  };
+    }),
+    []
+  ); // Empty dependency array since options are static
 
   // Render the stock details component with chart
   return (
@@ -238,4 +244,5 @@ const StockDetails = () => {
   );
 };
 
-export default StockDetails;
+// Memoize the component to prevent unnecessary re-renders
+export default memo(StockDetails);

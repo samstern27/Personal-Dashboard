@@ -1,30 +1,42 @@
-import React from "react";
+import React, { useMemo, memo } from "react";
 import translations from "./translations";
 import "../pages/HomePage/Home.css";
 
 const Translate = () => {
-  const greeting =
-    new Date().getHours() < 12
-      ? "Good Morning"
-      : new Date().getHours() < 18
-      ? "Good Afternoon"
-      : "Good Evening";
-  console.log(greeting);
-  const formattedGreeting = greeting
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
-    )
-    .join("");
-  console.log(formattedGreeting);
-  const randomLanguage =
-    Object.keys(translations)[
-      Math.floor(Math.random() * Object.keys(translations).length)
-    ];
-  console.log(randomLanguage);
-  const translatedGreeting = translations[randomLanguage][formattedGreeting];
-  console.log(translatedGreeting);
+  const greeting = useMemo(
+    () =>
+      new Date().getHours() < 12
+        ? "Good Morning"
+        : new Date().getHours() < 18
+        ? "Good Afternoon"
+        : "Good Evening",
+    [] // Empty dependency array since this only depends on the current hour
+  );
+
+  const formattedGreeting = useMemo(
+    () =>
+      greeting
+        .toLowerCase()
+        .split(" ")
+        .map((word, index) =>
+          index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+        )
+        .join(""),
+    [greeting]
+  );
+
+  const randomLanguage = useMemo(
+    () =>
+      Object.keys(translations)[
+        Math.floor(Math.random() * Object.keys(translations).length)
+      ],
+    [] // Empty dependency array since this is a random selection
+  );
+
+  const translatedGreeting = useMemo(
+    () => translations[randomLanguage][formattedGreeting],
+    [randomLanguage, formattedGreeting]
+  );
 
   return (
     <div className="translate-container">
@@ -35,4 +47,5 @@ const Translate = () => {
   );
 };
 
-export default Translate;
+// Memoize the component to prevent unnecessary re-renders
+export default memo(Translate);

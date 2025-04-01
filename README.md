@@ -1,6 +1,10 @@
 # Personal Dashboard
 
-Dashboard showcasing API usage
+Dashboard showcasing API usage, React Router, and React Context.
+
+## Open in Vercel
+
+- https://personal-dashboard-samstern27s-projects.vercel.app/
 
 ## Features
 
@@ -9,17 +13,23 @@ Dashboard showcasing API usage
 - Stock market API integration
 - Event API integration
 
-## Technologies Used
+## Libraries Used
 
 - React
 - React Router
 - React Context API
 - React Hooks
 - React Memo
+- React Bootstrap
+- Vercel
+- Ticketmaster API
+- Alpha Vantage API
+- World News API
+- Geocoding API
 
-## URL
+## Important Notes
 
-- https://personal-dashboard-samstern27s-projects.vercel.app/
+- For the Stocks API, I am using a free tier account. The maximum requests per day is 25.
 
 ## Installation
 

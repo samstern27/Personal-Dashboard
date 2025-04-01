@@ -5,9 +5,9 @@ import EventDetails from "./EventDetails";
 import Spinner from "react-bootstrap/Spinner";
 import "./Events.css";
 
-// In development, use localhost. In production, use relative URL
+// Use environment variables for API base URL, with proper fallback for production
 const API_BASE_URL =
-  process.env.NODE_ENV === "development" ? "http://localhost:5001" : "";
+  process.env.NODE_ENV === "development" ? "http://localhost:5001" : "/api"; // In production, use /api as the base path
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -37,7 +37,7 @@ const Events = () => {
       console.log("Fetching events with params:", { lat, lng, distance });
 
       const response = await fetch(
-        `${API_BASE_URL}/api/events?lat=${lat}&lng=${lng}&radius=${distance}`,
+        `${API_BASE_URL}/events?lat=${lat}&lng=${lng}&radius=${distance}`,
         {
           headers: {
             Accept: "application/json",

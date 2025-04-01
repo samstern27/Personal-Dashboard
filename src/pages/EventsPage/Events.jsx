@@ -19,6 +19,7 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [distance, setDistance] = useState(5);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [shouldSearch, setShouldSearch] = useState(false);
 
   // Get location data from context
   const {
@@ -33,7 +34,15 @@ const Events = () => {
     if (coords) {
       fetchEvents(coords.lat, coords.lng, distance);
     }
-  }, [coords]);
+  }, [coords]); // Only depend on coords for initial load
+
+  // Handle search button clicks
+  useEffect(() => {
+    if (coords && shouldSearch) {
+      fetchEvents(coords.lat, coords.lng, distance);
+      setShouldSearch(false); // Reset the search flag after fetching
+    }
+  }, [shouldSearch]); // Only depend on shouldSearch for manual searches
 
   // Fetch events from the Ticketmaster API
   // Handles error cases and response validation
@@ -41,7 +50,6 @@ const Events = () => {
     try {
       setLoading(true);
       setError(null);
-      console.log("Fetching events with params:", { lat, lng, distance });
 
       const response = await fetch(
         `${API_BASE_URL}/events?lat=${lat}&lng=${lng}&radius=${distance}`,
@@ -92,7 +100,7 @@ const Events = () => {
   // Event handlers for user interactions
   const handleSearch = (e) => {
     e.preventDefault();
-    fetchEvents(coords.lat, coords.lng, distance);
+    setShouldSearch(true); // Trigger the search
   };
 
   const handleSelectEvent = (event) => {

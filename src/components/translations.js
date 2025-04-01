@@ -1,3 +1,6 @@
+// Object containing greetings in multiple languages
+// Each language has three time-based greetings (morning, afternoon, evening)
+// The keys are in camelCase to match the formatting in the Translate component
 const greetings = {
   English: {
     goodMorning: "Good Morning",
@@ -225,7 +228,5 @@ const greetings = {
     goodEvening: "ماښام مو نیکمرغه",
   },
 };
-
-console.log(greetings);
 
 export default greetings;

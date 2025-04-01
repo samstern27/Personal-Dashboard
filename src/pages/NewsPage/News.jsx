@@ -7,16 +7,17 @@ import { useLocation } from "../../contexts/LocationContext";
 import "./News.css";
 
 // News component that displays top news articles based on user's location
+// Integrates with World News API to fetch location-specific news
 const News = () => {
   // State management for news data and UI states
-  const [isLoading, setIsLoading] = useState(true); // Loading state
-  const [isError, setIsError] = useState(null); // Error state
-  const [countryCode, setCountryCode] = useState(""); // User's country code
-  const [newsData, setNewsData] = useState({ top_news: [] }); // News data from API
-  const [selectedNews, setSelectedNews] = useState(null); // Currently selected article
-  const newsDetailsRef = useRef(null); // Reference to article details section for scrolling
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(null);
+  const [countryCode, setCountryCode] = useState("");
+  const [newsData, setNewsData] = useState({ top_news: [] });
+  const [selectedNews, setSelectedNews] = useState(null);
+  const newsDetailsRef = useRef(null);
 
-  // Get location data from context
+  // Get location data from context for personalized news delivery
   const {
     coords,
     isLoading: locationLoading,
@@ -25,17 +26,17 @@ const News = () => {
 
   const newsApiKey = import.meta.env.VITE_WORLD_NEWS_API_KEY;
 
-  // Effect hook to get user's country code based on location from context
+  // Get user's country code based on their coordinates
+  // This is used to fetch location-specific news
   useEffect(() => {
     if (coords) {
       getCountryCode(coords.lat, coords.lng);
     }
   }, [coords]);
 
-  // Function to get country code from coordinates
+  // Convert coordinates to country code using reverse geocoding
   const getCountryCode = async (latitude, longitude) => {
     try {
-      // Fetch country code from coordinates
       const res = await fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
       );
@@ -44,21 +45,20 @@ const News = () => {
     } catch (error) {
       console.error("Failed to get country code from coordinates: ", error);
       setIsError(error);
-      setCountryCode("uk"); // Default to UK if geocoding fails
+      setCountryCode("uk"); // Fallback to UK if geocoding fails
     }
   };
 
-  // Effect hook to fetch news data when country code is available
+  // Fetch news data when country code is available
+  // Uses World News API to get top news for the user's country
   useEffect(() => {
     if (countryCode) {
       const fetchNewsData = async () => {
         try {
-          // Fetch top news for user's country
           const res = await fetch(
             `https://api.worldnewsapi.com/top-news?source-country=${countryCode}&language=en&api-key=${newsApiKey}`
           );
           const data = await res.json();
-          console.log(data);
           setNewsData(data);
           setIsLoading(false);
         } catch (error) {
@@ -70,16 +70,15 @@ const News = () => {
 
       fetchNewsData();
     }
-  }, [countryCode]); // Run when countryCode changes
+  }, [countryCode]);
 
-  // Handler for selecting a news article
+  // Handle article selection and scroll to details
   const handleSelectedNews = (id) => {
     const selected = newsData.top_news.find((story) => story.news[0].id === id);
     if (selected) {
       setSelectedNews(selected.news[0]);
-      // Scroll to top of article details when selecting new article
+      // Smooth scroll to article details when selecting new article
       if (newsDetailsRef.current) {
-        console.log(newsDetailsRef.current);
         newsDetailsRef.current.scrollTo({
           top: 0,
           behavior: "smooth",
@@ -88,7 +87,8 @@ const News = () => {
     }
   };
 
-  // Create news button elements from filtered news data
+  // Filter and map news data to button components
+  // Excludes articles with permission errors
   const newsElements = newsData.top_news
     ? newsData.top_news
         .filter(
@@ -105,28 +105,25 @@ const News = () => {
         ))
     : null;
 
-  // Determine if we're still loading
+  // Combine loading states from location and news fetching
   const showLoading = locationLoading || isLoading;
-
-  // Determine if there's an error
   const errorToShow = locationError || isError;
 
-  // Render news component with conditional rendering based on state
   return (
     <section className="news-container">
       <div className="news-container-content">
         <h1>News</h1>
         {showLoading ? (
-          // Show loading spinner while fetching data
+          // Loading state with spinner
           <div className="loading-container">
             <Spinner animation="border" variant="secondary" />
             <p>Loading news for your area...</p>
           </div>
         ) : errorToShow ? (
-          // Show error message if there's an error
+          // Error state with message
           <p>Error: {errorToShow}</p>
         ) : (
-          // Show news content if data is available
+          // Main news content with article list and details
           <div className="news-section">
             <div className="news-details-button-container">{newsElements}</div>
             <div className="article-content">

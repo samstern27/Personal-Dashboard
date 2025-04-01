@@ -4,8 +4,10 @@ import { format } from "date-fns";
 import weatherCodes from "./WeatherCodes";
 
 // WeatherDetails component that displays detailed weather information
+// Uses memoization to optimize performance for weather data processing
 const WeatherDetails = ({ data }) => {
-  // Create object for current day's weather data
+  // Create object for current day's weather data using useMemo
+  // This prevents unnecessary recalculations on re-renders
   const currentDay = useMemo(
     () => ({
       date: data.daily.time[0],
@@ -25,7 +27,8 @@ const WeatherDetails = ({ data }) => {
     ]
   );
 
-  // Create objects for next 6 days of weather data
+  // Create objects for next 6 days of weather data using useMemo
+  // Each day object contains date, temperature range, and weather code
   const day2 = useMemo(
     () => ({
       date: data.daily.time[1],
@@ -116,7 +119,8 @@ const WeatherDetails = ({ data }) => {
     ]
   );
 
-  // Create array of weather data for the next 6 days
+  // Create array of weather data for the next 6 days using useMemo
+  // This array is used to render the forecast cards
   const weatherElements = useMemo(
     () => [day2, day3, day4, day5, day6, day7],
     [day2, day3, day4, day5, day6, day7]
@@ -125,7 +129,7 @@ const WeatherDetails = ({ data }) => {
   // Render weather details with current day and forecast
   return (
     <>
-      {/* Current day weather display */}
+      {/* Current day weather display with detailed information */}
       <div className="weather-details-current-day-container">
         <p className="weather-details-current-day-date">Today</p>
         <p className="weather-details-current-day-temperature">Current:</p>
@@ -148,7 +152,7 @@ const WeatherDetails = ({ data }) => {
         </p>
       </div>
 
-      {/* 6-day forecast display */}
+      {/* 6-day forecast display with daily weather cards */}
       <div className="weather-details">
         {weatherElements.map((day, index) => (
           <div className="weather-details-day-container" key={index}>

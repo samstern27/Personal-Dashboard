@@ -10,6 +10,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "./Stocks.css";
 
 // Create the context for sharing stock data across components
+// This enables state management and API calls to be shared between parent and child components
 export const StockContext = createContext();
 
 const Stocks = () => {
@@ -26,12 +27,12 @@ const Stocks = () => {
   const [isRateLimited, setIsRateLimited] = useState(false); // Track rate limit status
   const navigate = useNavigate(); // React Router navigation hook
 
-  // Initialize refs
+  // Initialize refs for cleanup and component lifecycle management
   const abortController = useRef(null);
   const apiTimeout = useRef(null);
   const isComponentMounted = useRef(true);
 
-  // Effect for managing component mount status
+  // Track component mount status for cleanup
   useEffect(() => {
     isComponentMounted.current = true;
     return () => {
@@ -40,7 +41,7 @@ const Stocks = () => {
     };
   }, []);
 
-  // Cleanup function for API calls
+  // Cleanup function to abort pending API calls and clear timeouts
   const cleanup = () => {
     console.log("Cleanup called");
     if (abortController.current) {

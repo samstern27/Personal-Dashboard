@@ -8,6 +8,7 @@ export default function Layout() {
     <div className="layout-container">
       <Navbar />
       <Outlet />
+      <div className="copyright">© {new Date().getFullYear()} Samuel Stern</div>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/HomePage/Home";
 import Weather from "./pages/WeatherPage/Weather";
@@ -11,8 +10,13 @@ import "./App.css";
 import Layout from "./components/Layout";
 import { LocationProvider } from "./contexts/LocationContext";
 import { WeatherProvider } from "./contexts/WeatherContext";
+
+// Main App component that sets up routing and global context providers
+// Uses React Router v6 for client-side routing and nested routes
 const App = () => {
   return (
+    // Wrap the entire app with context providers for location and weather data
+    // These providers make location and weather data available throughout the app
     <LocationProvider>
       <WeatherProvider>
         <BrowserRouter>

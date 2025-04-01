@@ -1,8 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { useLocation } from "./LocationContext";
 
+// Create a context for managing weather-related state across the application
 const WeatherContext = createContext();
 
+// Custom hook to consume the WeatherContext
+// This pattern ensures proper error handling if the context is used outside its provider
 export const useWeather = () => {
   const context = useContext(WeatherContext);
   if (!context) {
@@ -12,6 +15,7 @@ export const useWeather = () => {
 };
 
 export const WeatherProvider = ({ children }) => {
+  // Destructure location data from LocationContext
   const {
     coords,
     locationName,
@@ -24,14 +28,16 @@ export const WeatherProvider = ({ children }) => {
   const [isError, setIsError] = useState(null); // Error state
   const [weatherData, setWeatherData] = useState({}); // Weather data from API
 
-  // Effect hook to fetch weather data when coordinates are available
+  // Fetch weather data whenever coordinates change
+  // This ensures weather data stays in sync with location updates
   useEffect(() => {
     if (coords) {
       fetchWeather(coords.lat, coords.lng);
     }
   }, [coords]);
 
-  // Function to fetch weather data from Open-Meteo API
+  // Fetch weather data from Open-Meteo API
+  // Returns both current conditions and 7-day forecast
   const fetchWeather = async (lat, long) => {
     try {
       // Fetch current weather and 7-day forecast
@@ -48,12 +54,14 @@ export const WeatherProvider = ({ children }) => {
     }
   };
 
-  // Determine if we're still loading data
+  // Combine loading states from both location and weather fetching
+  // This prevents premature rendering when either data is still loading
   const showLoading = locationLoading || isLoading;
 
-  // Determine if there's an error to show
+  // Aggregate errors from both location and weather services
   const errorToShow = locationError || isError;
 
+  // Provide weather data and status to consuming components
   return (
     <WeatherContext.Provider value={{ weatherData, isLoading, isError }}>
       {children}

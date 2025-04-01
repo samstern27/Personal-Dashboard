@@ -9,7 +9,7 @@ const EventDetails = ({ event, onClose }) => {
   // - event: would be the event object from the API
   // - onClose: callback function to close the details view
 
-  // Helper function to format date
+  // Format date string into a detailed user-friendly format
   const formatDate = (dateString) => {
     if (!dateString) return "Date TBD";
     const options = {
@@ -21,7 +21,7 @@ const EventDetails = ({ event, onClose }) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Helper function to format time
+  // Format time string with a label for different event times
   const formatTime = (timeString, label) => {
     if (!timeString) return `${label}: TBD`;
     const options = { hour: "numeric", minute: "numeric", hour12: true };
@@ -31,7 +31,8 @@ const EventDetails = ({ event, onClose }) => {
     )}`;
   };
 
-  // Helper to get high-resolution image
+  // Get the highest resolution image available for the event
+  // Prefers widescreen format for better visual presentation
   const getHighResImage = () => {
     if (!event.images || event.images.length === 0) {
       return "https://placehold.co/800x450?text=No+Image";
@@ -44,7 +45,7 @@ const EventDetails = ({ event, onClose }) => {
     return suitable ? suitable.url : event.images[0].url;
   };
 
-  // Helper to format price ranges
+  // Format price ranges into a user-friendly string
   const formatPriceRanges = () => {
     if (!event.priceRanges || event.priceRanges.length === 0) {
       return ["Price information not available"];
@@ -57,6 +58,7 @@ const EventDetails = ({ event, onClose }) => {
 
   return (
     <div className="event-details">
+      {/* Navigation header with back button */}
       <div className="event-details__header">
         <button className="event-details__back-button" onClick={onClose}>
           &larr; Back to Events
@@ -64,7 +66,9 @@ const EventDetails = ({ event, onClose }) => {
       </div>
 
       <div className="event-details__content">
+        {/* Main content area with event information */}
         <div className="event-details__main">
+          {/* High-resolution event image */}
           <div className="event-details__image-container">
             <img
               src={getHighResImage()}
@@ -77,7 +81,9 @@ const EventDetails = ({ event, onClose }) => {
             {event.name || "Untitled Event"}
           </h1>
 
+          {/* Grid layout for event details */}
           <div className="event-details__info-grid">
+            {/* Date and time information */}
             <div className="event-details__info-item">
               <h3>Date and Time</h3>
               <p>{formatDate(event.dates?.start?.localDate)}</p>
@@ -89,6 +95,7 @@ const EventDetails = ({ event, onClose }) => {
               )}
             </div>
 
+            {/* Venue and location details */}
             <div className="event-details__info-item">
               <h3>Venue</h3>
               <p>{event._embedded?.venues?.[0]?.name || "Venue TBD"}</p>
@@ -106,6 +113,7 @@ const EventDetails = ({ event, onClose }) => {
               )}
             </div>
 
+            {/* Pricing information */}
             <div className="event-details__info-item">
               <h3>Price Range</h3>
               {formatPriceRanges().map((price, index) => (
@@ -114,6 +122,7 @@ const EventDetails = ({ event, onClose }) => {
               {event.ticketLimit && <p>{event.ticketLimit.info}</p>}
             </div>
 
+            {/* Age restrictions and additional notes */}
             <div className="event-details__info-item">
               <h3>Restrictions</h3>
               <p>
@@ -126,8 +135,10 @@ const EventDetails = ({ event, onClose }) => {
           </div>
         </div>
 
+        {/* Sidebar with actions and organizer info */}
         <div className="event-details__sidebar">
           <div className="event-details__actions">
+            {/* Ticket purchase button */}
             <a
               href={event.url || "#"}
               className="event-details__ticket-button"
@@ -137,6 +148,7 @@ const EventDetails = ({ event, onClose }) => {
               Buy Tickets
             </a>
 
+            {/* Organizer information */}
             <div className="event-details__organizer">
               <h3>Event Organizer</h3>
               <p>

@@ -1,7 +1,10 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
+// Create a context to share location data across components
 const LocationContext = createContext();
 
+// Custom hook to consume the location context
+// This makes it easy to access location data from any component
 export const useLocation = () => {
   const context = useContext(LocationContext);
   if (!context) {
@@ -10,7 +13,9 @@ export const useLocation = () => {
   return context;
 };
 
+// Provider component that wraps the app and makes location data available
 export const LocationProvider = ({ children }) => {
+  // State to manage coordinates, location name, loading state, and errors
   const [coords, setCoords] = useState(null);
   const [locationName, setLocationName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -18,9 +23,11 @@ export const LocationProvider = ({ children }) => {
 
   const geocodingApiKey = import.meta.env.VITE_GEOCODING_API_KEY;
 
+  // Effect hook to get user's location when component mounts
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
+        // Success callback - when we get the user's position
         (position) => {
           const locationCoords = {
             lat: position.coords.latitude,
@@ -30,6 +37,7 @@ export const LocationProvider = ({ children }) => {
           fetchLocationName(locationCoords.lat, locationCoords.lng);
           setIsLoading(false);
         },
+        // Error callback - handle different geolocation errors
         (error) => {
           console.error("Geolocation error: ", error);
           let errorMessage;
@@ -56,9 +64,9 @@ export const LocationProvider = ({ children }) => {
       setError("Geolocation is not supported by this browser.");
       setIsLoading(false);
     }
-  }, []);
+  }, []); // Empty dependency array means this only runs once on mount
 
-  // Function to fetch location name from OpenCage Geocoding API
+  // Convert coordinates to a human-readable location name using OpenCage API
   const fetchLocationName = async (lat, long) => {
     if (lat && long) {
       try {
@@ -77,6 +85,7 @@ export const LocationProvider = ({ children }) => {
     }
   };
 
+  // Provide location data to all child components
   return (
     <LocationContext.Provider
       value={{

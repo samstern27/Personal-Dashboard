@@ -1,21 +1,17 @@
-// Import necessary React components, styles, and assets
-import React from "react";
-import { NavLink } from "react-router-dom";
-import "./Home.css";
-import weatherIcon from "../../assets/icons/cloud-line.svg";
-import newsIcon from "../../assets/icons/newspaper-line.svg";
-import stocksIcon from "../../assets/icons/stock-line.svg";
-import eventsIcon from "../../assets/icons/calendar-line.svg";
-import notesIcon from "../../assets/icons/sticky-note-line.svg";
-import financeIcon from "../../assets/icons/money-dollar-circle-line.svg";
 import TimeDate from "../../components/TimeDate";
 import Translate from "../../components/Translate";
+import "./Home.css";
+
 // Home component that serves as the main dashboard page
+// This is the central hub where users can access all dashboard features
 const Home = () => {
   return (
     <main className="home-container">
+      {/* Main content section containing core dashboard components */}
       <section className="home-content">
+        {/* Display current time and date */}
         <TimeDate />
+        {/* Language translation component */}
         <Translate />
       </section>
     </main>

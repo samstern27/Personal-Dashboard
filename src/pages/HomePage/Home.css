@@ -325,6 +325,15 @@ a {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+.copyright {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  font-size: 0.8rem;
+  color: #cbcbcb;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 /* ------------------------------ Animations ------------------------------ */
 
 @keyframes moveGradient {

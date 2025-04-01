@@ -3,8 +3,9 @@ import newsIcon from "../../assets/icons/newspaper-line.svg";
 import "./News.css";
 
 // ArticleDetails component that displays the full content of a selected news article
+// Uses forwardRef to enable scrolling to the component when a new article is selected
 const ArticleDetails = React.forwardRef(({ data }, ref) => {
-  // Show placeholder if no article is selected
+  // Show placeholder UI when no article is selected
   if (!data || !data.text) {
     return (
       <div className="please-select">
@@ -14,38 +15,36 @@ const ArticleDetails = React.forwardRef(({ data }, ref) => {
     );
   }
 
-  // Function to format article text into paragraphs
+  // Format article text into readable paragraphs
+  // Groups sentences into paragraphs of 5 sentences each for better readability
   function splitIntoParagraphs(text) {
-    // Regular expression to match sentence endings, considering initials
+    // Regular expression to match sentence endings while preserving initials
     const sentenceRegex = /(?<!\b[A-Z])(?<=[.!?])\s+(?=[A-Z])/g;
 
-    // Split the text into sentences
+    // Split text into sentences and group them into paragraphs
     const sentences = text.split(sentenceRegex);
-
-    // Group sentences into paragraphs of 5 sentences each
     const paragraphs = [];
     for (let i = 0; i < sentences.length; i += 5) {
       paragraphs.push(sentences.slice(i, i + 5).join(" "));
     }
     const finalParagraphs = paragraphs.join("\n\n");
 
-    // Join paragraphs with double newlines to separate them
     return finalParagraphs;
   }
 
-  // Format the article text into paragraphs
+  // Format the article text for display
   const formattedText = splitIntoParagraphs(data.text);
 
-  // Render the article details with title, image, publish date, and formatted text
+  // Render the article with title, image, publish date, and formatted content
   return (
     <div className="news-details" ref={ref}>
       <h2>{data.title}</h2>
-      {/* Only render image if it exists and is not empty */}
+      {/* Render article image if available */}
       {data.image && data.image.trim() !== "" && (
         <img src={data.image} alt={data.title} />
       )}
       <p className="news-details-publish-date">{data.publish_date}</p>
-      {/* Render each paragraph of the article */}
+      {/* Render formatted article paragraphs */}
       <div>
         {formattedText.split("\n\n").map((paragraph, index) => (
           <p key={index}>{paragraph}</p>

@@ -2,13 +2,13 @@ import React from "react";
 import "./EventCard.css";
 
 const EventCard = ({ event, onSelect }) => {
-  // Helper function to format date
+  // Format date string into a user-friendly format
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Helper function to format time
+  // Format time string into a user-friendly format with AM/PM
   const formatTime = (timeString) => {
     if (!timeString) return "TBD";
     const options = { hour: "numeric", minute: "numeric", hour12: true };
@@ -18,7 +18,8 @@ const EventCard = ({ event, onSelect }) => {
     );
   };
 
-  // Helper to get primary image
+  // Get the most appropriate image URL for the card
+  // Prefers smaller images for better performance
   const getImageUrl = () => {
     if (!event.images || event.images.length === 0) {
       return "https://placehold.co/300x200?text=No+Image";
@@ -29,7 +30,8 @@ const EventCard = ({ event, onSelect }) => {
     return suitable ? suitable.url : event.images[0].url;
   };
 
-  // Helper to determine sale status class
+  // Determine the CSS class based on the event's sale status
+  // Used for visual indication of ticket availability
   const getSaleStatusClass = () => {
     const status = event.dates?.status?.code?.toLowerCase() || "";
 
@@ -53,6 +55,7 @@ const EventCard = ({ event, onSelect }) => {
 
   return (
     <div className="event-card" onClick={() => onSelect(event)}>
+      {/* Event image with fallback */}
       <div className="event-card__image-container">
         <img
           src={getImageUrl()}
@@ -65,6 +68,7 @@ const EventCard = ({ event, onSelect }) => {
         <h3 className="event-card__name">{event.name || "Untitled Event"}</h3>
 
         <div className="event-card__details">
+          {/* Date and time information */}
           <div className="event-card__date-time">
             <p className="event-card__date">
               {event.dates?.start?.localDate
@@ -76,6 +80,7 @@ const EventCard = ({ event, onSelect }) => {
             </p>
           </div>
 
+          {/* Venue and location information */}
           <div className="event-card__location">
             <p className="event-card__venue">
               {event._embedded?.venues?.[0]?.name || "Venue TBD"}
@@ -89,6 +94,7 @@ const EventCard = ({ event, onSelect }) => {
             </p>
           </div>
 
+          {/* Age restrictions and ticket status */}
           <div className="event-card__restrictions">
             <p className="event-card__age">
               {event.ageRestrictions?.legalAgeEnforced ? "18+" : "All Ages"}

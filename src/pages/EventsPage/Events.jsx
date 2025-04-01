@@ -10,6 +10,7 @@ const API_BASE_URL =
   process.env.NODE_ENV === "development" ? "http://localhost:5001/api" : "/api";
 
 const Events = () => {
+  // State management for events data and UI states
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,13 +24,16 @@ const Events = () => {
     error: locationError,
   } = useLocation();
 
+  // Fetch events whenever coordinates or distance changes
+  // This ensures the event list stays in sync with user's location and search preferences
   useEffect(() => {
-    // Only fetch events if we have coordinates
     if (coords) {
       fetchEvents(coords.lat, coords.lng, distance);
     }
   }, [coords]);
 
+  // Fetch events from the Ticketmaster API
+  // Handles error cases and response validation
   const fetchEvents = async (lat, lng, distance) => {
     try {
       setLoading(true);
@@ -46,50 +50,35 @@ const Events = () => {
         }
       );
 
-      console.log("Response received:", {
-        status: response.status,
-        statusText: response.statusText,
-        contentType: response.headers.get("content-type"),
-      });
-
-      // Check if response is ok before trying to parse JSON
+      // Validate response and handle different error cases
       if (!response.ok) {
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
           const errorData = await response.json();
-          console.error("Error response data:", errorData);
           throw new Error(errorData.error || "Failed to fetch events");
         } else {
           const text = await response.text();
-          console.error("Non-JSON error response:", text);
           throw new Error("Server error: Failed to fetch events");
         }
       }
 
-      // Check content type before parsing
+      // Ensure response is JSON before parsing
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
         const text = await response.text();
-        console.error("Invalid content type response:", {
-          contentType,
-          responseText: text,
-        });
         throw new Error("Invalid response format from server");
       }
 
       const data = await response.json();
-      console.log("Parsed response data:", data);
 
+      // Handle the Ticketmaster API's embedded response format
       if (data._embedded && data._embedded.events) {
         setEvents(data._embedded.events);
       } else {
         setEvents([]);
       }
     } catch (error) {
-      console.error("Error fetching events:", {
-        message: error.message,
-        stack: error.stack,
-      });
+      console.error("Error fetching events:", error);
       setError(error.message);
       setEvents([]);
     } finally {
@@ -97,6 +86,7 @@ const Events = () => {
     }
   };
 
+  // Event handlers for user interactions
   const handleSearch = (e) => {
     e.preventDefault();
     fetchEvents(coords.lat, coords.lng, distance);
@@ -114,6 +104,7 @@ const Events = () => {
     <section className="events-container">
       <h1 className="events-title">Events Near You</h1>
 
+      {/* Search form for adjusting the search radius */}
       <form className="events-search" onSubmit={handleSearch}>
         <label htmlFor="distance">Distance in km:</label>
         <input
@@ -126,7 +117,7 @@ const Events = () => {
         <button type="submit">Search</button>
       </form>
 
-      {/* Show error if there is one */}
+      {/* Error handling UI with retry option */}
       {(locationError || error) && (
         <div className="events-error">
           <p>{locationError || error}</p>
@@ -147,7 +138,7 @@ const Events = () => {
         </div>
       )}
 
-      {/* Show loading state while getting location or fetching events */}
+      {/* Loading state with spinner */}
       {locationLoading || loading ? (
         <div className="events-list-container">
           <div className="events-loading">
@@ -176,7 +167,7 @@ const Events = () => {
         </div>
       )}
 
-      {/* Show event details when an event is selected */}
+      {/* Modal for displaying detailed event information */}
       {selectedEvent && (
         <EventDetails event={selectedEvent} onClose={handleCloseDetails} />
       )}

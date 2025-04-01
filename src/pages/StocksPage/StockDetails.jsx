@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, memo } from "react";
+import { useEffect, useMemo, memo } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -27,12 +27,15 @@ ChartJS.register(
   Legend
 );
 
+// StockDetails component that displays detailed stock information and charts
+// Uses memo to prevent unnecessary re-renders
 const StockDetails = () => {
   // Get stock data, error state, and loading state from context
   const { stockData, error, loading, searchStock } = useContext(StockContext);
   // Get stock symbol from URL parameters
   const { symbol } = useParams();
 
+  // Fetch stock data when symbol changes or data is missing
   useEffect(() => {
     const fetchData = async () => {
       if (

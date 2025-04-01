@@ -6,8 +6,11 @@ import Spinner from "react-bootstrap/Spinner";
 import "./Events.css";
 
 // Use environment variables for API base URL, with proper fallback for production
+const API_PORT = import.meta.env.VITE_API_PORT || "5001";
 const API_BASE_URL =
-  process.env.NODE_ENV === "development" ? "http://localhost:5001/api" : "/api";
+  process.env.NODE_ENV === "development"
+    ? `http://localhost:${API_PORT}/api`
+    : "/api";
 
 const Events = () => {
   // State management for events data and UI states

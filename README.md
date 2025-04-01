@@ -30,8 +30,9 @@ You can get these API keys from:
 
 - Ticketmaster API: https://developer.ticketmaster.com/
 - Alpha Vantage API: https://www.alphavantage.co/
-- Geocoding API: https://rapidapi.com/geoapify-gmbh-geocoding/api/geocoding/
-- World News API: https://rapidapi.com/contextualwebsearch/api/web-search/
+- Geocoding API: https://opencagedata.com/api/
+- World News API: https://worldnewsapi.com/
+- Weather API: https://openweathermap.org/api
 
 Note: Make sure your backend server is running on the port specified in VITE_API_PORT (default: 5001)
 

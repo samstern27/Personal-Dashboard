@@ -7,7 +7,7 @@ import "./Events.css";
 
 // Use environment variables for API base URL, with proper fallback for production
 const API_BASE_URL =
-  process.env.NODE_ENV === "development" ? "http://localhost:5001" : "/api"; // In production, use /api as the base path
+  process.env.NODE_ENV === "development" ? "http://localhost:5001/api" : "/api";
 
 const Events = () => {
   const [events, setEvents] = useState([]);

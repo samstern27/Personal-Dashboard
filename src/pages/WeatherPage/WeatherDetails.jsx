@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from "react";
+import { useMemo, memo } from "react";
 import "./Weather.css";
 import { format } from "date-fns";
 import weatherCodes from "./WeatherCodes";

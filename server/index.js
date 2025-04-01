@@ -14,8 +14,8 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === "production"
-        ? ["https://personal-dashboard-ogqq.netlify.app"]
-        : ["http://localhost:5173"],
+        ? "https://personal-dashboard-ebon-pi.vercel.app" // Fixed URL without trailing slash
+        : ["http://localhost:5173", "http://127.0.0.1:5173"],
     credentials: true,
   })
 );

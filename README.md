@@ -44,11 +44,6 @@ Note: Make sure your backend server is running on the port specified in VITE_API
 - React Hooks
 - React Memo
 - React Bootstrap
-- Vercel
-- Ticketmaster API
-- Alpha Vantage API
-- World News API
-- Geocoding API
 
 ## Important Notes
 
